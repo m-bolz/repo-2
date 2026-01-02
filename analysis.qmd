@@ -1,5 +1,39 @@
 ---
-title: "Untitled"
+title: "A Beautiful Graphic"
+author: Mauro Bolzern
 format: html
+execute: 
+  echo: false
+  
 ---
 
+```{r start}
+#| warning: false
+library(tidyverse) |> suppressPackageStartupMessages()
+library(ggplot2)
+```
+
+```{r beautiful-graph}
+
+mtcars |>
+  # Convert cyl to a factor for discrete coloring
+  mutate(cyl = factor(cyl)) |>
+  ggplot(aes(x = hp, y = mpg, color = cyl, size = wt)) +
+  geom_point(alpha = 0.8) +                 # semi‑transparent points
+  scale_color_brewer(palette = "Set2") +    # pleasant colour palette
+  scale_size_continuous(range = c(2, 6)) +  # sensible point sizes
+  labs(
+    title = "Fuel Efficiency vs. Engine Power",
+    subtitle = "mtcars dataset – points sized by weight",
+    x = "Horsepower (hp)",
+    y = "Miles per Gallon (mpg)",
+    color = "Cylinders",
+    size = "Weight (1000 lbs)"
+  ) +
+  theme_minimal(base_family = "Helvetica") +   # clean minimal theme
+  theme(
+    plot.title = element_text(face = "bold", size = 16),
+    plot.subtitle = element_text(size = 12),
+    legend.position = "right"
+  )
+```
